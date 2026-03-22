@@ -1,8 +1,21 @@
 #include <iostream>
+#include <vector>
 
-int main() {
-    std::cout << "Hello, World! xd" << std::endl;
+using namespace std;
+
+class Board
+{
+  vector<int> height
+  
+};
+
+int main() 
+{
+
     return 0;
-
-    //tu byl dzareggggg xdddd
 }
+
+
+/*
+zastanawiamy
+*/
