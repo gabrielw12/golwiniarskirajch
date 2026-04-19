@@ -7,6 +7,12 @@ using namespace std;
 
 enum class bound_or_apex {APEX, BOUNDARY};
 enum class boundary_mode {TORUS, DEAD_ZONE, WIDE_DEAD_ZONE, APEX_BUFF, INFINITE};
+    /*
+    TORUS - krawędzie sąsiadują ze sobą w logicznym sensie, tablica ma ksztalt torusa
+    DEAD_ZONE - liczymy stan komorek tak, jakby wszystkie komorki za krawedzia byly zawsze martwe
+    WIDE_DEAD_ZONE - margines kilku komorek za krawedzia, ktore podlegaja normalnym zasadom, udaje, ze za krawedzia jest nieskonczony obszar
+    APEX_BUFF - zakladamy ze w polach za rogami sa zyjace komorki, tak aby te mogly miec szanse ozyc
+    */
 class Cell
 {
     bool is_alive=false;
@@ -26,15 +32,10 @@ class Board
     size_t width;
     size_t height;
     boundary_mode bound;
-    /*
-    TORUS - krawędzie sąsiadują ze sobą w logicznym sensie, tablica ma ksztalt torusa
-    DEAD_ZONE - liczymy stan komorek tak, jakby wszystkie komorki za krawedzia byly zawsze martwe
-    WIDE_DEAD_ZONE - margines kilku komorek za krawedzia, ktore podlegaja normalnym zasadom, udaje, ze za krawedzia jest nieskonczony obszar
-    APEX_BUFF - zakladamy ze w polach za rogami sa zyjace komorki, tak aby te mogly miec szanse ozyc
-    */
+
     vector<Cell> current_state;
     vector<Cell> next_state;
-    
+     
     public:
 
     size_t getIndex(size_t x, size_t y)
@@ -71,6 +72,10 @@ class Board
     
 };
 
+class State
+{
+    
+}
 
 
 
@@ -82,3 +87,6 @@ class Rules
     bool check if
 
 }
+
+
+/*test*/
