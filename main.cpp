@@ -32,6 +32,7 @@ class Board
         if (cmap[i])
         {
         //test gita na pc
+            //test gita na nowym kompie
         }
     }
   }
