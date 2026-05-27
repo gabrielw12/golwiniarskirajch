@@ -1,12 +1,13 @@
 #include <iostream>
 #include <vector>
+#include <cstdint>
 #include <ranges>
 
 using namespace std;
 
-
 enum class bound_or_apex {APEX, BOUNDARY};
 enum class boundary_mode {TORUS, DEAD_ZONE, WIDE_DEAD_ZONE, APEX_BUFF, INFINITE};
+
 class Cell
 {
     bool is_alive=false;
@@ -19,6 +20,8 @@ class Cell
     {
         boa=passed_boa;
     }
+
+    //TODO metody odczytu i zmiana stanu (wg copilota)
 };
 
 class Board
@@ -68,17 +71,24 @@ class Board
     }
     Board(){};
 
-    
+    //TODO metoda dostępu do komórek
 };
-
-
-
 
 class Rules
 {
     Board board;
     public:
-    int count_neighbours()
-    bool check if
+    int count_neighbours();
+   // bool check if
+};
+//TODO funkcja licząca sąsiadów
 
+//TODO funkcja krok symulacji
+
+//TODO funkcja do wyświetlania planszy
+
+
+
+int main() {
+    return 0;
 }
