@@ -12,7 +12,6 @@ class Cell
 {
     bool is_alive=false;
     uint8_t age=0;
-    
     bound_or_apex boa;
 
     public:
@@ -20,8 +19,10 @@ class Cell
     {
         boa=passed_boa;
     }
-
-    //TODO metody odczytu i zmiana stanu (wg copilota)
+    bool read_cell() {return is_alive;}
+    void set_alive() {is_alive=true;}
+    void reset_alive() {is_alive=false;}
+    void change_alive() {is_alive = !is_alive;}
 };
 
 class Board
@@ -37,7 +38,7 @@ class Board
     */
     vector<Cell> current_state;
     vector<Cell> next_state;
-    
+
     public:
 
     size_t getIndex(size_t x, size_t y)
