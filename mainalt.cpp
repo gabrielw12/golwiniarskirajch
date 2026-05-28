@@ -5,53 +5,28 @@
 
 using namespace std;
 
-enum class bound_or_apex {APEX, BOUNDARY};
-enum class boundary_mode {TORUS, DEAD_ZONE, WIDE_DEAD_ZONE, APEX_BUFF, INFINITE};
+enum class bound_or_apex { APEX, BOUNDARY };
 
-class Cell
-{
-    bool is_alive=false;
-    uint8_t age=0;
+enum class boundary_mode { TORUS, DEAD_ZONE, WIDE_DEAD_ZONE, APEX_BUFF, INFINITE };
+
+class Cell {
+    bool is_alive = false;
+    uint8_t age = 0;
     bound_or_apex boa;
 
-    public:
-    void set_boa(bound_or_apex passed_boa)
-    {
-        boa=passed_boa;
+public:
+    void set_boa(bound_or_apex passed_boa) {
+        boa = passed_boa;
     }
-    bool read_cell() {return is_alive;}
-    void set_alive() {is_alive=true;}
-    void reset_alive() {is_alive=false;}
-    void change_alive() {is_alive = !is_alive;}
+
+    bool read_cell() { return is_alive; }
+    void set_alive() { is_alive = true; }
+    void reset_alive() { is_alive = false; }
+    void change_alive() { is_alive = !is_alive; }
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class Board
-{
+class Board {
     size_t width;
     size_t height;
     boundary_mode bound;
@@ -65,35 +40,32 @@ class Board
     */
 
 
-    public:
+public:
     Board(size_t width, size_t height, boundary_mode bound)
-     :  width(width),
-        height(height),
-        bound(bound),
-        current_state(width*height),
-        next_state(width*height)
-    {
-        for( auto && [i, cells ] : views::enumerate(views::zip(current_state, next_state)) ) // wymaga c++23, petal sluzy oznaczeniu komorek na bokach i rogach
+        : width(width),
+          height(height),
+          bound(bound),
+          current_state(width * height),
+          next_state(width * height) {
+        for (auto &&[i, cells]: views::enumerate(views::zip(current_state, next_state)))
+        // wymaga c++23, petal sluzy oznaczeniu komorek na bokach i rogach
         {
-            auto &&  [ currCell, nextCell ] = cells;
+            auto &&[currCell, nextCell] = cells;
             int x = i % width;
             int y = i / width;
-            if(x==0 || y==0 || x== width || y==height)
-            {
+            if (x == 0 || y == 0 || x == width || y == height) {
                 currCell.set_boa(bound_or_apex::BOUNDARY);
                 nextCell.set_boa(bound_or_apex::BOUNDARY);
             }
-            if((x==0 && y==0) || (x==width && y==height))
-            {
+            if ((x == 0 && y == 0) || (x == width && y == height)) {
                 currCell.set_boa(bound_or_apex::APEX);
                 nextCell.set_boa(bound_or_apex::APEX);
             }
         }
     }
 
-    size_t getIndex(size_t x, size_t y)
-    {
-        return y*width+x;
+    size_t getIndex(size_t x, size_t y) {
+        return y * width + x;
     }
 
     /**
@@ -103,39 +75,46 @@ class Board
      * @return Numer indeksu
      */
     Cell &at(size_t x, size_t y) {
-        return current_state[getIndex(x,y)];
+        return current_state[getIndex(x, y)];
     }
+
     Cell &next_at(size_t x, size_t y) {
-        return next_state[getIndex(x,y)];
+        return next_state[getIndex(x, y)];
     }
-
-
 };
 
 
+/**
+ * Interfejs do zasad gry
+ */
+class Rules {
+public:
+    virtual ~Rules() = default;
+    virtual bool next_state(bool is_alive, int neighbours) const = 0;
 
+};
 
-
-
-
-
-
-
-
-
-class Rules
-{
-    Board board;
+/**
+ * Zasady dla klasycznej wersji Conway'a: jeżeli żywa komórka jest otoczona 2 lub 3 sąsiadami to przeżywa do
+ * następnej iteracji, w innym przypadku umiera.
+ * Jeżeli martwa komórka ma 3 sąsiadów, w następnej iteracji ożywa.
+ */
+class Conway : public Rules {
     public:
-    int count_neighbours();
-   // bool check if
+        bool next_state(bool is_alive, int neighbours) const override {
+            if (is_alive) {
+                return (neighbours == 2 || neighbours == 3);
+            }
+            else {
+                return (neighbours == 3);
+            }
+        }
 };
 //TODO funkcja licząca sąsiadów
 
 //TODO funkcja krok symulacji
 
 //TODO funkcja do wyświetlania planszy
-
 
 
 int main() {
