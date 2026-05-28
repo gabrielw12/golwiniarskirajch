@@ -25,27 +25,47 @@ class Cell
     void change_alive() {is_alive = !is_alive;}
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Board
 {
     size_t width;
     size_t height;
     boundary_mode bound;
+    vector<Cell> current_state;
+    vector<Cell> next_state;
     /*
     TORUS - krawędzie sąsiadują ze sobą w logicznym sensie, tablica ma ksztalt torusa
     DEAD_ZONE - liczymy stan komorek tak, jakby wszystkie komorki za krawedzia byly zawsze martwe
     WIDE_DEAD_ZONE - margines kilku komorek za krawedzia, ktore podlegaja normalnym zasadom, udaje, ze za krawedzia jest nieskonczony obszar
     APEX_BUFF - zakladamy ze w polach za rogami sa zyjace komorki, tak aby te mogly miec szanse ozyc
     */
-    vector<Cell> current_state;
-    vector<Cell> next_state;
+
 
     public:
-
-    size_t getIndex(size_t x, size_t y)
-    {
-        return y*width+x;
-    }
-
     Board(size_t width, size_t height, boundary_mode bound)
      :  width(width),
         height(height),
@@ -70,10 +90,38 @@ class Board
             }
         }
     }
-    Board(){};
 
-    //TODO metoda dostępu do komórek
+    size_t getIndex(size_t x, size_t y)
+    {
+        return y*width+x;
+    }
+
+    /**
+     * Metody at oraz next_at zwracają numer indeksu wektora komórek w zależności od przyjetych kordynatów planszy
+     * @param x numer wiersza
+     * @param y numer kolumny
+     * @return Numer indeksu
+     */
+    Cell &at(size_t x, size_t y) {
+        return current_state[getIndex(x,y)];
+    }
+    Cell &next_at(size_t x, size_t y) {
+        return next_state[getIndex(x,y)];
+    }
+
+
 };
+
+
+
+
+
+
+
+
+
+
+
 
 class Rules
 {
