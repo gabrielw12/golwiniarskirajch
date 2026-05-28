@@ -4,7 +4,10 @@
 #include <ranges>
 
 using namespace std;
-
+/* Gabriel pytanie mam. Czy musimy zostawić te enum class poniżej? Bo żeby zaimplementowac boundry interface to muszę je usunąć
+* Dodatkowo zmienia to trochę logikę w klasie Board.
+* Na razie je zostawiam, ale docolowo bym wolał przejść jednak na interfejs.
+*/
 enum class bound_or_apex { APEX, BOUNDARY };
 
 enum class boundary_mode { TORUS, DEAD_ZONE, WIDE_DEAD_ZONE, APEX_BUFF, INFINITE };
