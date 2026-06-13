@@ -27,48 +27,42 @@ class Board
     
     public:
 
-    size_t getIndex(size_t x, size_t y)
+  Board(size_t a, size_t b): height(a), width(b), cmap(a*b) {};
+  void count_neighbours(size_t & cell)
+  {
+    size_t counter =0;
+    for(size_t i = -1; i<2; i++)
     {
-        return y*width+x;
+    if (cell - 1 + i*width)
+        ++counter;
+    if (cell + 1 + i*width)
+        ++counter;
     }
 
-    Board(size_t width, size_t height, boundary_mode bound)
-     :  width(width),
-        height(height),
-        bound(bound),
-        current_state(width*height),
-        next_state(width*height)
+  }
+  void count_nmap(vector <size_t>cmap, vector <size_t> nmap)// tu chcialem obliczyc nowa mape na podstawie starej, ale zorientowalem sie
+  {
+    for (int i = 0; i< height*width; i++)
     {
-        for( auto && [i, cells ] : views::enumerate(views::zip(current_state, next_state)) ) // wymaga c++23, petal sluzy oznaczeniu komorek na bokach i rogach
+        if (cmap[i])
         {
-            auto &&  [ currCell, nextCell ] = cells;
-            int x = i % width;
-            int y = i / width;
-            if(x==0 || y==0 || x== width || y==height)
-            {
-                currCell.set_boa(bound_apex_normal::BOUNDARY);
-                nextCell.set_boa(bound_apex_normal::BOUNDARY);
-            }
-            if((x==0 && y==0) || (x==width && y==height))
-            {
-                currCell.set_boa(bound_apex_normal::APEX);
-                nextCell.set_boa(bound_apex_normal::APEX);
-            }
+        //test gita na pc
+            //test gita na nowym kompie
         }
     }
-    Board(){};
-
-    
+  }
+  
 };
 
-
-
-
-class Rules
+int main() 
 {
-    Board board;
-    public:
-    int count_neighbours()
-    bool check if
 
+    return 0;
 }
+
+
+/*
+zastanawiamy się czy to powinna być tablica w postaci wektora wketrorów, czy pojedyńczy wektor
+EDIT: generalnie prowadzący na rozkimne czy wektor czy wektor wektorow powiedzial ze to nie istotne, mamy uzyc abstrakcji do tego stopnia, by nie było istotne to, czy mapa jest tablica, wektore, wektorem wektorow itd,
+szczegoly implementacji powinny byc poza logika programu (byc moze sie tu wzorce przydadza czy inz orporgrmowania XD.
+*/
