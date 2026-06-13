@@ -1,52 +1,74 @@
 #include <iostream>
 #include <vector>
+#include <ranges>
+#include <enums.h>
 
 using namespace std;
 
+
+
+    /*
+    TORUS - krawędzie sąsiadują ze sobą w logicznym sensie, tablica ma ksztalt torusa
+    DEAD_ZONE - liczymy stan komorek tak, jakby wszystkie komorki za krawedzia byly zawsze martwe
+    WIDE_DEAD_ZONE - margines kilku komorek za krawedzia, ktore podlegaja normalnym zasadom, udaje, ze za krawedzia jest nieskonczony obszar
+    APEX_BUFF - zakladamy ze w polach za rogami sa zyjace komorki, tak aby te mogly miec szanse ozyc
+    */
+
+
+
 class Board
 {
-  size_t height =0;
-  size_t width =0;
-  vector <size_t> cmap;
-  vector <size_t> nmap;
+    size_t width;
+    size_t height;
+    boundary_mode bound;
 
-  public:
+    vector<Cell> current_state;
+    vector<Cell> next_state;
+    
+    public:
 
-  Board(size_t a, size_t b): height(a), width(b), cmap(a*b) {};
-  void count_neighbours(size_t & cell)
-  {
-    size_t counter =0;
-    for(size_t i = -1; i<2; i++)
+    size_t getIndex(size_t x, size_t y)
     {
-    if (cell - 1 + i*width)
-        ++counter;
-    if (cell + 1 + i*width)
-        ++counter;
+        return y*width+x;
     }
 
-  }
-  void count_nmap(vector <size_t>cmap, vector <size_t> nmap)// tu chcialem obliczyc nowa mape na podstawie starej, ale zorientowalem sie
-  {
-    for (int i = 0; i< height*width; i++)
+    Board(size_t width, size_t height, boundary_mode bound)
+     :  width(width),
+        height(height),
+        bound(bound),
+        current_state(width*height),
+        next_state(width*height)
     {
-        if (cmap[i])
+        for( auto && [i, cells ] : views::enumerate(views::zip(current_state, next_state)) ) // wymaga c++23, petal sluzy oznaczeniu komorek na bokach i rogach
         {
-        //test gita na pc
+            auto &&  [ currCell, nextCell ] = cells;
+            int x = i % width;
+            int y = i / width;
+            if(x==0 || y==0 || x== width || y==height)
+            {
+                currCell.set_boa(bound_apex_normal::BOUNDARY);
+                nextCell.set_boa(bound_apex_normal::BOUNDARY);
+            }
+            if((x==0 && y==0) || (x==width && y==height))
+            {
+                currCell.set_boa(bound_apex_normal::APEX);
+                nextCell.set_boa(bound_apex_normal::APEX);
+            }
         }
     }
-  }
-  
+    Board(){};
+
+    
 };
 
-int main() 
+
+
+
+class Rules
 {
+    Board board;
+    public:
+    int count_neighbours()
+    bool check if
 
-    return 0;
 }
-
-
-/*
-zastanawiamy się czy to powinna być tablica w postaci wektora wketrorów, czy pojedyńczy wektor
-EDIT: generalnie prowadzący na rozkimne czy wektor czy wektor wektorow powiedzial ze to nie istotne, mamy uzyc abstrakcji do tego stopnia, by nie było istotne to, czy mapa jest tablica, wektore, wektorem wektorow itd,
-szczegoly implementacji powinny byc poza logika programu (byc moze sie tu wzorce przydadza czy inz orporgrmowania XD.
-*/
