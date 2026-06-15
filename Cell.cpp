@@ -1,4 +1,4 @@
-#include "enums.h"
+#include "enums.hpp"
 #include <iostream>
 using namespace std;
 
@@ -13,5 +13,20 @@ class Cell
     void set_boa(bound_apex_normal passed_boa)
     {
         boa=passed_boa;
+    }
+
+    bound_apex_normal get_boa() const
+    {
+        return boa;
+    }
+
+    bool get_is_alive() const
+    {
+        return is_alive;
+    }
+
+    uint8_t get_age() const
+    {
+        return age;
     }
 };
