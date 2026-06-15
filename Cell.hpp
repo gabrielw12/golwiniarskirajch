@@ -14,4 +14,6 @@ class Cell
     bound_apex_normal get_boa() const;
     bool get_is_alive() const;
     uint8_t get_age() const;
+    void set_is_alive(bool alive);
+    void increment_age();
 };

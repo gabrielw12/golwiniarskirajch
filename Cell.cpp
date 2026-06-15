@@ -29,4 +29,14 @@ class Cell
     {
         return age;
     }
+
+    void set_is_alive(bool alive)
+    {
+        is_alive = alive;
+    }
+
+    void increment_age()
+    {
+        age++;
+    }
 };
