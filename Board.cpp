@@ -1,4 +1,6 @@
-#include <iostream>
+#ifndef BOARD_HPP
+#define BOARD_HPP
+
 #include <vector>
 #include "Cell.hpp"
 #include "enums.hpp"
@@ -16,7 +18,7 @@ class Board
     
     public:
 
-  Board(size_t a, size_t b): height(a), width(b), current_state(a*b) {};
+  Board(size_t a, size_t b): height(a), width(b), current_state(a*b), next_state(a*b) {};
   void count_neighbours(size_t & cell)
   {
     size_t counter =0;
@@ -42,3 +44,4 @@ class Board
   }
   
 };
+#endif
