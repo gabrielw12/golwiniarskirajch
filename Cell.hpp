@@ -4,7 +4,7 @@
 
 class Cell {
     bool is_alive = false;
-    uint8_t age = 0;
+    std::uint32_t age = 0;
     bound_apex_normal boa = bound_apex_normal::NORMAL;
 
 public:
@@ -20,7 +20,7 @@ public:
         return is_alive; 
     }
 
-    uint8_t get_age() const { 
+    std::uint32_t get_age() const { 
         return age; 
     }
 
@@ -31,7 +31,7 @@ public:
         }
     }
 
-    void increment_age() { 
-        age++; 
+    void set_age(std::uint32_t new_age) { 
+        age=new_age; 
     }
 };

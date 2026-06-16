@@ -115,12 +115,33 @@ public:
         return current_state[to_index(logical_x + 1, logical_y + 1)].get_is_alive();
     }
 
+    std::uint32_t get_age_at(int logical_x, int logical_y) const {
+        return current_state[to_index(logical_x + 1, logical_y + 1)].get_age();
+    }
+
     void set_next_state_at(int logical_x, int logical_y, bool alive) {
         int idx = to_index(logical_x + 1, logical_y + 1);
+        
+        // 1. Zawsze nadpisujemy fizyczny stan komórki
         next_state[idx].set_is_alive(alive);
         
-        if (alive && current_state[idx].get_is_alive()) {
-            next_state[idx].increment_age();
+        // 2. Precyzyjna kontrola wieku (czyszczenie brudnej pamięci)
+        if (alive) {
+            if (current_state[idx].get_is_alive()) {
+                // Sytuacja A: Komórka przetrwała. Starzejemy ją z zabezpieczeniem.
+                std::uint32_t old_age = current_state[idx].get_age();
+                if (old_age < 4000000000) {
+                    next_state[idx].set_age(old_age + 1);
+                } else {
+                    next_state[idx].set_age(4000000000);
+                }
+            } else {
+                // Sytuacja B: Komórka właśnie się narodziła. Musi być wyzerowana!
+                next_state[idx].set_age(0);
+            }
+        } else {
+            // Sytuacja C: Komórka umiera. Czyścimy pamięć, by nie zostawić "ducha".
+            next_state[idx].set_age(0);
         }
     }
 
