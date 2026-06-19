@@ -1,0 +1,1 @@
+cmd /c chcp 65001>nul && C:\msys64\mingw64\bin\g++.exe -fdiagnostics-color=always -g C:\Users\gwin1\OneDrive\Pulpit\golwiniarskirajch\main.cpp -o C:\Users\gwin1\OneDrive\Pulpit\golwiniarskirajch\main.exe -std=c++23 -lsfml-graphics -lsfml-window -lsfml-system
