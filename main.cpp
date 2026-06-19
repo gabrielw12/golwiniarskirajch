@@ -41,12 +41,12 @@ sf::Color hsv_to_rgb(float h, float s, float v) {
 sf::Color get_age_color(std::uint32_t age) {
     if (age == 0) return sf::Color(255, 255, 255);
 
-    // Maksymalny wiek: 36 000 generacji (ok. 10 minut przy 60 Hz)
+   
     const std::uint32_t MAX_AGE = 36000; 
     
     std::uint32_t clamped_age = std::min(age, MAX_AGE);
     float progress = static_cast<float>(clamped_age) / MAX_AGE;
-    float hue = progress * 280.0f; // Od czerwieni (0) do fioletu (280)
+    float hue = progress * 280.0f; 
 
     return hsv_to_rgb(hue, 1.0f, 1.0f);
 }
@@ -93,7 +93,7 @@ void load_random(Board& board, float fill_probability) {
     }
 }
 
-// --- START APLIKACJI ---
+
 
 int main() {
     int width, height, mode_choice, demo_choice;

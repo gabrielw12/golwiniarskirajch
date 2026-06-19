@@ -27,7 +27,7 @@ public:
     void set_is_alive(bool alive) { 
         is_alive = alive; 
         if (!alive) {
-            age = 0; // Opcjonalne: resetujemy wiek, gdy komórka umiera
+            age = 0; 
         }
     }
 

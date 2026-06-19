@@ -13,12 +13,12 @@ class Board {
     std::vector<Cell> current_state;
     std::vector<Cell> next_state;
 
-    // Prywatna metoda mapująca płaskie indeksy na wektor z marginesem
+    
     int to_index(int real_x, int real_y) const {
         return real_y * real_width + real_x;
     }
 
-    // Inicjalizacja marginesów i tagowania (odpalana w konstruktorze)
+    
     void init_ghost_cells() {
         for (int y = 0; y < real_height; ++y) {
             for (int x = 0; x < real_width; ++x) {
@@ -32,7 +32,7 @@ class Board {
                 bool is_edge = (x == 0 || x == real_width - 1 ||
                                 y == 0 || y == real_height - 1) && !is_corner;
 
-                // Rozdawanie tagów z enuma
+                
                 if (is_corner) {
                     current_state[idx].set_boa(bound_apex_normal::APEX);
                     next_state[idx].set_boa(bound_apex_normal::APEX);
@@ -66,7 +66,7 @@ public:
     int get_width() const { return logical_width; }
     int get_height() const { return logical_height; }
 
-    // Ustawienie komórki przed startem gry
+    
     void set_alive(int logical_x, int logical_y, bool alive) {
         if (logical_x >= 0 && logical_x < logical_width && 
             logical_y >= 0 && logical_y < logical_height) {
@@ -74,7 +74,7 @@ public:
         }
     }
 
-    // Synchronizacja krawędzi przed każdym nowym krokiem
+    
     void sync_edges() {
         if (bound != boundary_mode::TORUS) return; 
 
@@ -122,10 +122,10 @@ public:
     void set_next_state_at(int logical_x, int logical_y, bool alive) {
         int idx = to_index(logical_x + 1, logical_y + 1);
         
-        // 1. Zawsze nadpisujemy fizyczny stan komórki
+        
         next_state[idx].set_is_alive(alive);
         
-        // 2. Precyzyjna kontrola wieku (czyszczenie brudnej pamięci)
+        
         if (alive) {
             if (current_state[idx].get_is_alive()) {
                 // Sytuacja A: Komórka przetrwała. Starzejemy ją z zabezpieczeniem.
@@ -136,11 +136,11 @@ public:
                     next_state[idx].set_age(4000000000);
                 }
             } else {
-                // Sytuacja B: Komórka właśnie się narodziła. Musi być wyzerowana!
+                
                 next_state[idx].set_age(0);
             }
         } else {
-            // Sytuacja C: Komórka umiera. Czyścimy pamięć, by nie zostawić "ducha".
+            
             next_state[idx].set_age(0);
         }
     }
